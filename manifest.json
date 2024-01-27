@@ -1,0 +1,18 @@
+{
+	"manifest_version": 2,
+	"name": "ReDirector",
+	"version": "1.0",
+	"description": "Redirect URLs",
+	"content_scripts": [
+		{
+			"matches": [
+				"*://twitter.com/*",
+				"*://*.reddit.com/*",
+				"*://*.youtube.com/*"
+			],
+			"js": [
+				"index.js"
+			]
+		}
+	]
+}
