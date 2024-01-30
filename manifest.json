@@ -17,5 +17,6 @@
       "js": ["index.js"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "permissions": ["webRequest", "*://*.youtube.com/*"]
 }
