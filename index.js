@@ -1,25 +1,29 @@
-const url_map_diff_domain = {
-  "twitter.com": "nitter.net",
-  "x.com": "nitter.net",
-  "reddit.com": "old.reddit.com",
-  "www.reddit.com": "old.reddit.com",
-};
-const url_map_same_domain = ["www.youtube.com", "youtube.com"];
-
 let hostname = window.location.hostname;
-if (Object.keys(url_map_diff_domain).includes(hostname)) {
-  // Redirect to different domains
+
+// reddit specific
+const reddit = ["reddit.com", "www.reddit.com"];
+if (reddit.includes(hostname)) {
+  away_from_reddit_new();
+}
+function away_from_reddit_new() {
   let redirect_to = new URL(window.location);
-  redirect_to.hostname = url_map_diff_domain[hostname];
+  if (redirect_to.pathname === "/media") {
+    // do nothing
+    return
+  }
+  // Redirect to different sub-domain
+  redirect_to.hostname = "old.reddit.com";
   window.location.replace(redirect_to);
 }
 
 // YouTube specific
-if (url_map_same_domain.includes(hostname)) {
+const youtube = ["www.youtube.com", "youtube.com"];
+if (youtube.includes(hostname)) {
+  // navigate away
   away_from_youtube_home();
+  // register an event listener that will keep navigating away later
   youtube_nav_handler();
 }
-
 function away_from_youtube_home() {
   let redirect_to = new URL(window.location);
   if (redirect_to.pathname === "/") {
@@ -37,7 +41,7 @@ function youtube_nav_handler() {
   // already does that & firefox yet doesn't support navigation API.
   // As last resort using `yt-navigate-start` event generated from YouTube's
   // `spfjs` to detect in page navigation
-  document.addEventListener("yt-navigate-start", function (_event) {
+  document.addEventListener("yt-navigate-start", function(_event) {
     away_from_youtube_home();
   });
 }
