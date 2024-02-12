@@ -10,11 +10,11 @@
     {
       "matches": [
         "*://*.reddit.com/*",
-        "*://*.youtube.com/*"
+        "*://*.youtube.com/*",
+        "*://*.discord.com/*"
       ],
       "js": ["index.js"],
       "run_at": "document_start"
     }
-  ],
-  "permissions": ["webRequest", "*://*.youtube.com/*"]
+  ]
 }

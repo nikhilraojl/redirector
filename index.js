@@ -1,6 +1,8 @@
 let hostname = window.location.hostname;
 
+////////////////////////////////////////////////////////////////////////////////
 // reddit specific
+////////////////////////////////////////////////////////////////////////////////
 const reddit = ["reddit.com", "www.reddit.com"];
 if (reddit.includes(hostname)) {
   away_from_reddit_new();
@@ -9,14 +11,16 @@ function away_from_reddit_new() {
   let redirect_to = new URL(window.location);
   if (redirect_to.pathname === "/media") {
     // do nothing
-    return
+    return;
   }
   // Redirect to different sub-domain
   redirect_to.hostname = "old.reddit.com";
   window.location.replace(redirect_to);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 // YouTube specific
+////////////////////////////////////////////////////////////////////////////////
 const youtube = ["www.youtube.com", "youtube.com"];
 if (youtube.includes(hostname)) {
   // navigate away
@@ -26,7 +30,7 @@ if (youtube.includes(hostname)) {
 }
 function away_from_youtube_home() {
   let redirect_to = new URL(window.location);
-  if (redirect_to.pathname === "/") {
+  if (redirect_to.pathname === "/" || redirect_to.pathname === "/index") {
     redirect_to.pathname = "/feed/subscriptions/";
     console.log(
       `YouTube home is a wasteland, redirecting to... ${redirect_to}`,
@@ -37,11 +41,27 @@ function away_from_youtube_home() {
 
 function youtube_nav_handler() {
   // YouTube doens't trigger a `popState` event when on clicking links.
-  // Also monkeypatching `history.pushState` did not work, it seems YouTube 
+  // Also monkeypatching `history.pushState` did not work, it seems YouTube
   // already does that & firefox yet doesn't support navigation API.
   // As last resort using `yt-navigate-start` event generated from YouTube's
   // `spfjs` to detect in page navigation
-  document.addEventListener("yt-navigate-start", function(_event) {
+  document.addEventListener("yt-navigate-start", function (_event) {
     away_from_youtube_home();
   });
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// discord specific
+////////////////////////////////////////////////////////////////////////////////
+const discord = ["discord.com", "discord.com"];
+if (discord.includes(hostname)) {
+  away_from_discord_home();
+}
+function away_from_discord_home() {
+  let redirect_to = new URL(window.location);
+  if (redirect_to.pathname === "/") {
+    // open web discord by default
+    redirect_to.pathname = "app";
+    window.location.replace(redirect_to);
+  }
 }
