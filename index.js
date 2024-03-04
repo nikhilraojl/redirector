@@ -1,4 +1,4 @@
-let hostname = window.location.hostname;
+const hostname = window.location.hostname;
 
 ////////////////////////////////////////////////////////////////////////////////
 // reddit specific
@@ -8,7 +8,7 @@ if (reddit.includes(hostname)) {
   away_from_reddit_new();
 }
 function away_from_reddit_new() {
-  let redirect_to = new URL(window.location);
+  const redirect_to = new URL(window.location);
   if (redirect_to.pathname === "/media") {
     // do nothing
     return;
@@ -29,7 +29,7 @@ if (youtube.includes(hostname)) {
   youtube_nav_handler();
 }
 function away_from_youtube_home() {
-  let redirect_to = new URL(window.location);
+  const redirect_to = new URL(window.location);
   if (redirect_to.pathname === "/" || redirect_to.pathname === "/index") {
     redirect_to.pathname = "/feed/subscriptions/";
     console.log(
@@ -45,7 +45,7 @@ function youtube_nav_handler() {
   // already does that & firefox yet doesn't support navigation API.
   // As last resort using `yt-navigate-start` event generated from YouTube's
   // `spfjs` to detect in page navigation
-  document.addEventListener("yt-navigate-start", function (_event) {
+  document.addEventListener("yt-navigate-start", (_event) => {
     away_from_youtube_home();
   });
 }
@@ -58,7 +58,7 @@ if (discord.includes(hostname)) {
   away_from_discord_home();
 }
 function away_from_discord_home() {
-  let redirect_to = new URL(window.location);
+  const redirect_to = new URL(window.location);
   if (redirect_to.pathname === "/") {
     // open web discord by default
     redirect_to.pathname = "app";
