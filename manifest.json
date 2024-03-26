@@ -13,8 +13,18 @@
         "*://*.youtube.com/*",
         "*://*.discord.com/*"
       ],
-      "js": ["index.js"],
+      "js": [
+        "index.js"
+      ],
       "run_at": "document_start"
     }
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "tabs"
   ]
 }

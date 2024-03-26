@@ -6,6 +6,14 @@ const hostname = window.location.hostname;
 const reddit = ["reddit.com", "www.reddit.com"];
 if (reddit.includes(hostname)) {
   away_from_reddit_new();
+  // lack of navigation api requires message passing
+  // TLDR: If URL changed we get a message from background.js and we react to it
+  browser.runtime.onConnect.addListener((port) => {
+    port.onMessage.addListener((msg) => {
+      console.log(msg);
+      away_from_reddit_new();
+    });
+  });
 }
 function away_from_reddit_new() {
   const redirect_to = new URL(window.location);
